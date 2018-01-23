@@ -28,7 +28,7 @@ class Asgardian:
             self.input_gregorian_calendar = Gregorian()
         self.asgardian_datetime = self.timetuple()
 
-    def timetuple(self, input_gregorian_calendar: Gregorian=None)->tuple:
+    def timetuple(self, input_gregorian_calendar: Gregorian=None, pythonic_wday=False)->tuple:
         """
                                   0            1          2           3          4          5           6          7            8
         Looking to produce tm_year=2018, tm_mon=1, tm_mday=21, tm_hour=20, tm_min=44, tm_sec=22, tm_wday=6, tm_yday=21, tm_isdst=-1 - similar to Python's datetime
@@ -37,9 +37,10 @@ class Asgardian:
 
             tm_mon -> Asgardian month (range 1 to 13)
             tm_mday -> Asgardian month day (range 1 to 28)
-            tm_wday -> Asgardian week day (range 1 to 7, 1=Sunday) - will align this in the next round...
+            tm_wday -> Asgardian week day (range 0 to 6, 0=Sunday) (with pythonic_wday flag, 0=Monday
 
-        :param input_gregorian_calendar: Gregorian object
+        :param input_gregorian_calendar: Gregorian object (OPTIONAL)
+        :param pythonic_wday: boolean to indicate if tm_wday must be treated in an Asgardian way (Sunday=0) or a Pythonic way (Monday=0)
         :return: a tuple similar to Python's datetime.timetuple object, but adapted for asgardian calendar
         """
         if not input_gregorian_calendar:
@@ -54,10 +55,15 @@ class Asgardian:
         asgardian_mday = int(input_gregorian_calendar.get_day_number()%28)
         if asgardian_mday == 0:
             asgardian_mday = 1
-        # TODO align asgardian_wday so that 0 = Monday...
         asgardian_wday = int(input_gregorian_calendar.get_day_number()%7)
         if asgardian_wday == 0:
             asgardian_wday = 7
+        asgardian_wday = asgardian_wday - 1 # Asgardian format
+        if pythonic_wday:
+            if asgardian_wday == 0:
+                asgardian_wday = 6
+            else:
+                asgardian_wday = asgardian_wday - 1
         asgardian_tuple = (
             gregorian_tuple[0],
             asgardian_month_nr,
