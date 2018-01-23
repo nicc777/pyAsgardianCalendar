@@ -18,3 +18,13 @@ At the moment this is a quick and dirty hack. If there is enough interest, I'll 
     'Asgardian date: 2018-02-22'
 
 Still a lot to do - but the basics are ok.
+
+# Quick Explanation
+
+Refer to the online [Asgardian-Gregorian Conversion Chart](https://asgardia.space/en/calendar)
+
+You may already be familiar with Python's [datetime](https://docs.python.org/3/library/datetime.html) module.
+
+So far, my implementation is a quick and dirty conversion of the Gregorian datetime into the Asgardian equivalent.
+
+There are almost certainly bugs! This should not be considered production code at all.
