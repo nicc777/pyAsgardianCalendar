@@ -36,6 +36,8 @@ class Asgardian:
         Differences to Python datetime.timetuple():
 
             tm_mon -> Asgardian month (range 1 to 13)
+            tm_mday -> Asgardian month day (range 1 to 28)
+            tm_wday -> Asgardian week day (range 1 to 7, 1=Sunday) - will align this in the next round...
 
         :param input_gregorian_calendar: Gregorian object
         :return: a tuple similar to Python's datetime.timetuple object, but adapted for asgardian calendar
@@ -52,6 +54,7 @@ class Asgardian:
         asgardian_mday = int(input_gregorian_calendar.get_day_number()%28)
         if asgardian_mday == 0:
             asgardian_mday = 1
+        # TODO align asgardian_wday so that 0 = Monday...
         asgardian_wday = int(input_gregorian_calendar.get_day_number()%7)
         if asgardian_wday == 0:
             asgardian_wday = 7
@@ -70,12 +73,10 @@ class Asgardian:
 
     def __str__(self):
         t = self.timetuple()
-        month_str = ''
         if t[1] > 9:
             month_str = str(t[1])
         else:
             month_str = '0{}'.format(str(t[1]))
-        day_str = ''
         if t[2] > 9:
             day_str = str(t[2])
         else:
