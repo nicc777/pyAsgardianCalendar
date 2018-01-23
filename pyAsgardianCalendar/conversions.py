@@ -19,18 +19,29 @@ class Gregorian:
 
 
 class Asgardian:
-    def __init__(self):
+    def __init__(self, input_gregorian_calendar: Gregorian=None):
+        if not input_gregorian_calendar:
+            self.input_gregorian_calendar = Gregorian()
+        elif isinstance(input_gregorian_calendar, Gregorian):
+            self.input_gregorian_calendar = input_gregorian_calendar
+        else:
+            self.input_gregorian_calendar = Gregorian()
         self.asgardian_datetime = self.timetuple()
 
     def timetuple(self, input_gregorian_calendar: Gregorian=None)->tuple:
         """
+                                  0            1          2           3          4          5           6          7            8
         Looking to produce tm_year=2018, tm_mon=1, tm_mday=21, tm_hour=20, tm_min=44, tm_sec=22, tm_wday=6, tm_yday=21, tm_isdst=-1 - similar to Python's datetime
+
+        Differences to Python datetime.timetuple():
+
+            tm_mon -> Asgardian month (range 1 to 13)
 
         :param input_gregorian_calendar: Gregorian object
         :return: a tuple similar to Python's datetime.timetuple object, but adapted for asgardian calendar
         """
         if not input_gregorian_calendar:
-            input_gregorian_calendar = Gregorian()
+            input_gregorian_calendar = self.input_gregorian_calendar
         else:
             if not isinstance(input_gregorian_calendar, Gregorian):
                 raise Exception('Input must be a Gregorian calendar type.')
@@ -41,6 +52,9 @@ class Asgardian:
         asgardian_mday = int(input_gregorian_calendar.get_day_number()%28)
         if asgardian_mday == 0:
             asgardian_mday = 1
+        asgardian_wday = int(input_gregorian_calendar.get_day_number()%7)
+        if asgardian_wday == 0:
+            asgardian_wday = 7
         asgardian_tuple = (
             gregorian_tuple[0],
             asgardian_month_nr,
@@ -48,10 +62,24 @@ class Asgardian:
             gregorian_tuple[3],
             gregorian_tuple[4],
             gregorian_tuple[5],
-            gregorian_tuple[6],
+            asgardian_wday,
             gregorian_tuple[7],
-            gregorian_tuple[8],
+            -1,
         )
         return asgardian_tuple
+
+    def __str__(self):
+        t = self.timetuple()
+        month_str = ''
+        if t[1] > 9:
+            month_str = str(t[1])
+        else:
+            month_str = '0{}'.format(str(t[1]))
+        day_str = ''
+        if t[2] > 9:
+            day_str = str(t[2])
+        else:
+            day_str = '0{}'.format(str(t[2]))
+        return 'Asgardian date: {}-{}-{}'.format(t[0], month_str, day_str)
 
 # EOF
