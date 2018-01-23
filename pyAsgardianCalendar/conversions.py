@@ -20,9 +20,9 @@ class Gregorian:
 
 class Asgardian:
     def __init__(self):
-        self.asgardian_datetime = self.get_date()
+        self.asgardian_datetime = self.timetuple()
 
-    def get_date(self, input_gregorian_calendar: Gregorian=None)->tuple:
+    def timetuple(self, input_gregorian_calendar: Gregorian=None)->tuple:
         """
         Looking to produce tm_year=2018, tm_mon=1, tm_mday=21, tm_hour=20, tm_min=44, tm_sec=22, tm_wday=6, tm_yday=21, tm_isdst=-1 - similar to Python's datetime
 
